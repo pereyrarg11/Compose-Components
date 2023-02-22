@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +56,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }*/
                     //MyButtons()
-                    MyImage()
+                    //MyImage()
+                    MyIcon()
                 }
             }
         }
@@ -171,6 +175,12 @@ fun MyImage() {
     )
 }
 
+@Composable
+fun MyIcon() {
+    //more icons: https://fonts.google.com/icons
+    Icon(imageVector = Icons.Filled.StarBorder, "Star", tint = Color.Red)
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
@@ -178,6 +188,7 @@ fun DefaultPreview() {
         //MyText()
         //MyTextField()
         //MyButtons()
-        MyImage()
+        //MyImage()
+        MyIcon()
     }
 }
