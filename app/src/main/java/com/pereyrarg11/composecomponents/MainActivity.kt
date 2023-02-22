@@ -3,11 +3,16 @@ package com.pereyrarg11.composecomponents
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -30,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     //MyText()
-                    var myText by remember {
+                    /*var myText by remember {
                         mutableStateOf("")
                     }
                     Column {
@@ -41,7 +46,8 @@ class MainActivity : ComponentActivity() {
                                 it
                             }
                         }
-                    }
+                    }*/
+                    MyButtons()
                 }
             }
         }
@@ -108,11 +114,52 @@ fun MyTextField(myText: String, onValueChanged: (String) -> Unit) {
     )
 }
 
+@Composable
+fun MyButtons() {
+    var isEnabled by rememberSaveable {
+        mutableStateOf(true)
+    }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+    ) {
+        Button(
+            onClick = { isEnabled = false },
+            enabled = isEnabled,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Yellow,
+                contentColor = Color.Black,
+                disabledBackgroundColor = Color.Gray,
+                disabledContentColor = Color.DarkGray,
+            ),
+            border = BorderStroke(1.dp, Color.Red),
+        ) {
+            Text(text = "Button")
+        }
+
+        OutlinedButton(
+            onClick = { isEnabled = false },
+            enabled = isEnabled,
+        ) {
+            Text(text = "OutlinedButton")
+        }
+
+        TextButton(
+            onClick = { isEnabled = false },
+            enabled = isEnabled,
+        ) {
+            Text(text = "TextButton")
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeComponentsTheme {
         //MyText()
         //MyTextField()
+        MyButtons()
     }
 }
