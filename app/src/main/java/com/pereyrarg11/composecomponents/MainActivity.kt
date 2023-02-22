@@ -30,8 +30,17 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     //MyText()
+                    var myText by remember {
+                        mutableStateOf("")
+                    }
                     Column {
-                        MyTextField()
+                        MyTextField(myText) {
+                            myText = if (it.contains("A")) {
+                                it.replace("A", "")
+                            } else {
+                                it
+                            }
+                        }
                     }
                 }
             }
@@ -83,20 +92,12 @@ fun MyText() {
 }
 
 @Composable
-fun MyTextField() {
-    var myText by remember {
-        mutableStateOf("")
-    }
-
+fun MyTextField(myText: String, onValueChanged: (String) -> Unit) {
     // or you can use TextField
     OutlinedTextField(
         value = myText,
         onValueChange = {
-            myText = if (it.contains("A")) {
-                it.replace("A", "")
-            } else {
-                it
-            }
+            onValueChanged(it)
         },
         label = { Text(text = "Introduce tu nombre") },
         modifier = Modifier.padding(24.dp),
@@ -112,6 +113,6 @@ fun MyTextField() {
 fun DefaultPreview() {
     ComposeComponentsTheme {
         //MyText()
-        MyTextField()
+        //MyTextField()
     }
 }
