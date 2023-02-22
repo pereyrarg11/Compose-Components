@@ -4,9 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,7 +17,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -47,7 +52,8 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }*/
-                    MyButtons()
+                    //MyButtons()
+                    MyImage()
                 }
             }
         }
@@ -154,12 +160,24 @@ fun MyButtons() {
     }
 }
 
+@Composable
+fun MyImage() {
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_background),
+        contentDescription = "Image",
+        alpha = 0.75f,
+        //modifier = Modifier.clip(RoundedCornerShape(25f))
+        modifier = Modifier.clip(CircleShape).border(3.dp, Color.Red, CircleShape)
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeComponentsTheme {
         //MyText()
         //MyTextField()
-        MyButtons()
+        //MyButtons()
+        MyImage()
     }
 }
