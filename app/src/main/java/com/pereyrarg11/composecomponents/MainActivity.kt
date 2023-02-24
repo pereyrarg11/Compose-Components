@@ -6,19 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -57,7 +55,8 @@ class MainActivity : ComponentActivity() {
                     }*/
                     //MyButtons()
                     //MyImage()
-                    MyIcon()
+                    //MyIcon()
+                    MyProgress()
                 }
             }
         }
@@ -171,7 +170,9 @@ fun MyImage() {
         contentDescription = "Image",
         alpha = 0.75f,
         //modifier = Modifier.clip(RoundedCornerShape(25f))
-        modifier = Modifier.clip(CircleShape).border(3.dp, Color.Red, CircleShape)
+        modifier = Modifier
+            .clip(CircleShape)
+            .border(3.dp, Color.Red, CircleShape)
     )
 }
 
@@ -179,6 +180,35 @@ fun MyImage() {
 fun MyIcon() {
     //more icons: https://fonts.google.com/icons
     Icon(imageVector = Icons.Filled.StarBorder, "Star", tint = Color.Red)
+}
+
+@Composable
+fun MyProgress() {
+    var progressStatus by rememberSaveable {
+        mutableStateOf(50)
+    }
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = progressStatus.toString())
+        CircularProgressIndicator(progress = progressStatus/100f)
+        Row(horizontalArrangement = Arrangement.Center) {
+            TextButton(
+                onClick = { if (progressStatus < 100) progressStatus += 10 },
+                enabled = progressStatus < 100
+            ) {
+                Text(text = "Incrementar")
+            }
+            TextButton(
+                onClick = { if (progressStatus > 0) progressStatus -= 10 },
+                enabled = progressStatus > 0
+            ) {
+                Text(text = "Reducir")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -189,6 +219,7 @@ fun DefaultPreview() {
         //MyTextField()
         //MyButtons()
         //MyImage()
-        MyIcon()
+        //MyIcon()
+        MyProgress()
     }
 }
