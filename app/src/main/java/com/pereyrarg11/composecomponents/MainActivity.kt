@@ -1,11 +1,10 @@
 package com.pereyrarg11.composecomponents
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -40,6 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    PetForm()
                     //MyText()
                     /*var myText by remember {
                         mutableStateOf("")
@@ -53,11 +53,94 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }*/
-                    //MyButtons()
-                    //MyImage()
-                    //MyIcon()
-                    MyProgress()
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun PetForm() {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FormHeader()
+        Spacer(
+            Modifier
+                .height(32.dp)
+                .fillMaxWidth()
+        )
+        Column(Modifier.width(300.dp)) {
+            InfoFormGroup()
+            Actions()
+        }
+    }
+}
+
+@Composable
+fun FormHeader() {
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Text(
+            text = "Mis mascotas",
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 30.sp
+        )
+    }
+}
+
+@Composable
+fun FormGroupLabel(text: String) {
+    Text(text = text, textDecoration = TextDecoration.Underline, fontWeight = FontWeight.Bold)
+}
+
+@Composable
+fun TextInputForm(value: String, label: String, onValueChanged: (String) -> Unit) {
+    Column(Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChanged,
+            label = { Text(text = label) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(
+            modifier = Modifier
+                .height(8.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun InfoFormGroup() {
+    Column(
+        Modifier
+            .fillMaxWidth()
+    ) {
+        FormGroupLabel(text = "Información básica")
+        TextInputForm(value = "", label = "Nombre") {
+            Log.i("Name", it)
+        }
+    }
+}
+
+@Composable
+fun Actions() {
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+        Row {
+            OutlinedButton(onClick = { }) {
+                Text(text = "Descartar")
+            }
+            Spacer(
+                modifier = Modifier
+                    .width(8.dp)
+                    .fillMaxHeight()
+            )
+            Button(onClick = {}) {
+                Text(text = "Guardar")
             }
         }
     }
@@ -215,11 +298,6 @@ fun MyProgress() {
 @Composable
 fun DefaultPreview() {
     ComposeComponentsTheme {
-        //MyText()
-        //MyTextField()
-        //MyButtons()
-        //MyImage()
-        //MyIcon()
-        MyProgress()
+        PetForm()
     }
 }
