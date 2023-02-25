@@ -40,19 +40,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     PetForm()
-                    //MyText()
-                    /*var myText by remember {
-                        mutableStateOf("")
-                    }
-                    Column {
-                        MyTextField(myText) {
-                            myText = if (it.contains("A")) {
-                                it.replace("A", "")
-                            } else {
-                                it
-                            }
-                        }
-                    }*/
                 }
             }
         }
@@ -67,6 +54,18 @@ fun PetForm() {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        var name by rememberSaveable { mutableStateOf("") }
+
+        val ctaEnabled = name.isNotEmpty()
+        val onNameChanged: (String) -> Unit = { name = it }
+        val onDiscardClickListener: () -> Unit = {
+            Log.d("Pets", "Limpiando formulario")
+            name = ""
+        }
+        val onSubmitClickListener: () -> Unit = {
+            Log.i("Pets", "Guardando información")
+        }
+
         FormHeader()
         Spacer(
             Modifier
@@ -74,8 +73,12 @@ fun PetForm() {
                 .fillMaxWidth()
         )
         Column(Modifier.width(300.dp)) {
-            InfoFormGroup()
-            Actions()
+            InfoFormGroup(name = name, onNameChanged = onNameChanged)
+            Actions(
+                actionsEnabled = ctaEnabled,
+                onSubmitListener = onSubmitClickListener,
+                onDiscardListener = onDiscardClickListener
+            )
         }
     }
 }
@@ -115,23 +118,25 @@ fun TextInputForm(value: String, label: String, onValueChanged: (String) -> Unit
 }
 
 @Composable
-fun InfoFormGroup() {
+fun InfoFormGroup(name: String, onNameChanged: (String) -> Unit) {
     Column(
         Modifier
             .fillMaxWidth()
     ) {
         FormGroupLabel(text = "Información básica")
-        TextInputForm(value = "", label = "Nombre") {
-            Log.i("Name", it)
-        }
+        Spacer(
+            Modifier
+                .height(8.dp)
+                .fillMaxWidth())
+        TextInputForm(value = name, label = "Nombre", onValueChanged = onNameChanged)
     }
 }
 
 @Composable
-fun Actions() {
+fun Actions(actionsEnabled: Boolean, onSubmitListener: () -> Unit, onDiscardListener: () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
         Row {
-            OutlinedButton(onClick = { }) {
+            OutlinedButton(onClick = onDiscardListener, enabled = actionsEnabled) {
                 Text(text = "Descartar")
             }
             Spacer(
@@ -139,7 +144,7 @@ fun Actions() {
                     .width(8.dp)
                     .fillMaxHeight()
             )
-            Button(onClick = {}) {
+            Button(onClick = onSubmitListener, enabled = actionsEnabled) {
                 Text(text = "Guardar")
             }
         }
