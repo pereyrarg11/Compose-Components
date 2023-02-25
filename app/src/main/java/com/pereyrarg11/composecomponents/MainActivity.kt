@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -55,8 +57,11 @@ fun PetForm() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var name by rememberSaveable { mutableStateOf("") }
+        val foodOptions = createFoodOptions(listOf("Carne", "Croquetas", "Presas"))
 
         val ctaEnabled = name.isNotEmpty()
+                && foodOptions.any { it.isChecked }
+
         val onNameChanged: (String) -> Unit = { name = it }
         val onDiscardClickListener: () -> Unit = {
             Log.d("Pets", "Limpiando formulario")
@@ -74,6 +79,7 @@ fun PetForm() {
         )
         Column(Modifier.width(300.dp)) {
             InfoFormGroup(name = name, onNameChanged = onNameChanged)
+            FoodFormGroup(options = foodOptions)
             Actions(
                 actionsEnabled = ctaEnabled,
                 onSubmitListener = onSubmitClickListener,
@@ -127,8 +133,24 @@ fun InfoFormGroup(name: String, onNameChanged: (String) -> Unit) {
         Spacer(
             Modifier
                 .height(8.dp)
-                .fillMaxWidth())
+                .fillMaxWidth()
+        )
         TextInputForm(value = name, label = "Nombre", onValueChanged = onNameChanged)
+    }
+}
+
+@Composable
+fun FoodFormGroup(options: List<CheckboxInfo>) {
+    Column(Modifier.fillMaxWidth()) {
+        FormGroupLabel(text = "Alimentación")
+        Spacer(
+            Modifier
+                .height(8.dp)
+                .fillMaxWidth()
+        )
+        options.forEach {
+            CheckboxOption(config = it)
+        }
     }
 }
 
@@ -148,6 +170,39 @@ fun Actions(actionsEnabled: Boolean, onSubmitListener: () -> Unit, onDiscardList
                 Text(text = "Guardar")
             }
         }
+    }
+}
+
+@Composable
+fun CheckboxOption(config: CheckboxInfo) {
+    Row(
+        Modifier
+            .toggleable(
+                value = config.isChecked,
+                role = Role.Checkbox,
+                onValueChange = config.onCheckedChanged
+            )
+            .padding(vertical = 8.dp)
+            .fillMaxWidth()
+    ) {
+        Checkbox(
+            checked = config.isChecked,
+            onCheckedChange = null,
+        )
+        Spacer(Modifier.padding(8.dp).fillMaxHeight())
+        Text(text = config.label)
+    }
+}
+
+@Composable
+fun createFoodOptions(labels: List<String>): List<CheckboxInfo> {
+    return labels.map {
+        var isChecked by rememberSaveable { mutableStateOf(false) }
+        CheckboxInfo(
+            label = it,
+            isChecked = isChecked,
+            onCheckedChanged = { newStatus -> isChecked = newStatus }
+        )
     }
 }
 
@@ -281,7 +336,7 @@ fun MyProgress() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = progressStatus.toString())
-        CircularProgressIndicator(progress = progressStatus/100f)
+        CircularProgressIndicator(progress = progressStatus / 100f)
         Row(horizontalArrangement = Arrangement.Center) {
             TextButton(
                 onClick = { if (progressStatus < 100) progressStatus += 10 },
