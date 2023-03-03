@@ -1,4 +1,4 @@
-package com.pereyrarg11.composecomponents
+package com.pereyrarg11.composecomponents.ui.views.checkbox
 
 data class CheckboxInfo(
     val label: String = "",

@@ -1,4 +1,4 @@
-package com.pereyrarg11.composecomponents
+package com.pereyrarg11.composecomponents.ui.views
 
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +29,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pereyrarg11.composecomponents.ui.views.checkbox.CheckboxInfo
+import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 
 class MainActivity : ComponentActivity() {
