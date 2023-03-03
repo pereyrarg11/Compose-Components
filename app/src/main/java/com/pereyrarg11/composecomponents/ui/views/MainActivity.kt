@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -29,9 +27,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pereyrarg11.composecomponents.ui.views.checkbox.CheckboxInfo
 import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
+import com.pereyrarg11.composecomponents.ui.views.checkbox.FoodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.checkbox.createFoodOptions
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,21 +141,6 @@ fun InfoFormGroup(name: String, onNameChanged: (String) -> Unit) {
 }
 
 @Composable
-fun FoodFormGroup(options: List<CheckboxInfo>) {
-    Column(Modifier.fillMaxWidth()) {
-        FormGroupLabel(text = "Alimentación")
-        Spacer(
-            Modifier
-                .height(8.dp)
-                .fillMaxWidth()
-        )
-        options.forEach {
-            CheckboxOption(config = it)
-        }
-    }
-}
-
-@Composable
 fun Actions(actionsEnabled: Boolean, onSubmitListener: () -> Unit, onDiscardListener: () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
         Row {
@@ -172,39 +156,6 @@ fun Actions(actionsEnabled: Boolean, onSubmitListener: () -> Unit, onDiscardList
                 Text(text = "Guardar")
             }
         }
-    }
-}
-
-@Composable
-fun CheckboxOption(config: CheckboxInfo) {
-    Row(
-        Modifier
-            .toggleable(
-                value = config.isChecked,
-                role = Role.Checkbox,
-                onValueChange = config.onCheckedChanged
-            )
-            .padding(vertical = 8.dp)
-            .fillMaxWidth()
-    ) {
-        Checkbox(
-            checked = config.isChecked,
-            onCheckedChange = null,
-        )
-        Spacer(Modifier.padding(8.dp).fillMaxHeight())
-        Text(text = config.label)
-    }
-}
-
-@Composable
-fun createFoodOptions(labels: List<String>): List<CheckboxInfo> {
-    return labels.map {
-        var isChecked by rememberSaveable { mutableStateOf(false) }
-        CheckboxInfo(
-            label = it,
-            isChecked = isChecked,
-            onCheckedChanged = { newStatus -> isChecked = newStatus }
-        )
     }
 }
 
