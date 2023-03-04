@@ -31,6 +31,8 @@ import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.checkbox.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.checkbox.createFoodOptions
+import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
+import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,13 +62,20 @@ fun PetForm() {
         var name by rememberSaveable { mutableStateOf("") }
         val foodOptions = createFoodOptions(listOf("Carne", "Croquetas", "Presas", "Vegetales", "Suplemento"))
 
+        var animalSpecieSelected by rememberSaveable { mutableStateOf("") }
+        val animalSpecieOptions = buildAnimalSpecieOptions(animalSpecieSelected) { newSelection ->
+            animalSpecieSelected = newSelection
+        }
+
         val ctaEnabled = name.isNotEmpty()
                 && foodOptions.any { it.isChecked }
+                && animalSpecieOptions.any { it.isSelected }
 
         val onNameChanged: (String) -> Unit = { name = it }
         val onDiscardClickListener: () -> Unit = {
             Log.d("Pets", "Limpiando formulario")
             name = ""
+            animalSpecieSelected = ""
         }
         val onSubmitClickListener: () -> Unit = {
             Log.i("Pets", "Guardando información")
@@ -81,6 +90,7 @@ fun PetForm() {
         Column(Modifier.width(300.dp)) {
             InfoFormGroup(name = name, onNameChanged = onNameChanged)
             FoodFormGroup(options = foodOptions)
+            AnimalSpecieFormGroup(options = animalSpecieOptions)
             Actions(
                 actionsEnabled = ctaEnabled,
                 onSubmitListener = onSubmitClickListener,
