@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
+import com.pereyrarg11.composecomponents.ui.views.actions.Actions
 import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
@@ -62,7 +63,9 @@ fun PetForm() {
         var name by rememberSaveable { mutableStateOf("") }
 
         /* food */
-        var foodOptionsSelected by rememberSaveable { mutableStateOf(listOf("")) }
+        var foodOptionsSelected: List<String> by rememberSaveable {
+            mutableStateOf(emptyList())
+        }
         val foodOptions = buildFoodOptions(foodOptionsSelected) { optionName, isChecked ->
             foodOptionsSelected = if (isChecked) {
                 val mutable = foodOptionsSelected.toMutableList()
@@ -80,9 +83,13 @@ fun PetForm() {
             animalSpecieSelected = newSelection
         }
 
-        val ctaEnabled = name.isNotEmpty()
-                && foodOptions.any { it.isChecked }
-                && animalSpecieOptions.any { it.isSelected }
+        val submitEnabled = name.isNotEmpty()
+                && foodOptionsSelected.isNotEmpty()
+                && animalSpecieSelected.isNotEmpty()
+
+        val discardEnabled = name.isNotEmpty()
+                || foodOptionsSelected.isNotEmpty()
+                || animalSpecieSelected.isNotEmpty()
 
         val onNameChanged: (String) -> Unit = { name = it }
         val onDiscardClickListener: () -> Unit = {
@@ -106,9 +113,10 @@ fun PetForm() {
             FoodFormGroup(options = foodOptions)
             AnimalSpecieFormGroup(options = animalSpecieOptions)
             Actions(
-                actionsEnabled = ctaEnabled,
+                actionsEnabled = submitEnabled,
+                discardEnabled = discardEnabled,
                 onSubmitListener = onSubmitClickListener,
-                onDiscardListener = onDiscardClickListener
+                onDiscardListener = onDiscardClickListener,
             )
         }
     }
@@ -161,25 +169,6 @@ fun InfoFormGroup(name: String, onNameChanged: (String) -> Unit) {
                 .fillMaxWidth()
         )
         TextInputForm(value = name, label = "Nombre", onValueChanged = onNameChanged)
-    }
-}
-
-@Composable
-fun Actions(actionsEnabled: Boolean, onSubmitListener: () -> Unit, onDiscardListener: () -> Unit) {
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-        Row {
-            OutlinedButton(onClick = onDiscardListener, enabled = actionsEnabled) {
-                Text(text = "Descartar")
-            }
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-                    .fillMaxHeight()
-            )
-            Button(onClick = onSubmitListener, enabled = actionsEnabled) {
-                Text(text = "Guardar")
-            }
-        }
     }
 }
 
