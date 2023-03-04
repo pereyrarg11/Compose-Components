@@ -58,7 +58,7 @@ fun PetForm() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var name by rememberSaveable { mutableStateOf("") }
-        val foodOptions = createFoodOptions(listOf("Carne", "Croquetas", "Presas"))
+        val foodOptions = createFoodOptions(listOf("Carne", "Croquetas", "Presas", "Vegetales", "Suplemento"))
 
         val ctaEnabled = name.isNotEmpty()
                 && foodOptions.any { it.isChecked }
