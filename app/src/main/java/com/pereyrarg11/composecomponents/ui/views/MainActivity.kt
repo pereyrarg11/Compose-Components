@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
-import com.pereyrarg11.composecomponents.ui.views.checkbox.FoodFormGroup
-import com.pereyrarg11.composecomponents.ui.views.checkbox.createFoodOptions
+import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
 
@@ -60,7 +60,20 @@ fun PetForm() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var name by rememberSaveable { mutableStateOf("") }
-        val foodOptions = createFoodOptions(listOf("Carne", "Croquetas", "Presas", "Vegetales", "Suplemento"))
+
+        /* food */
+        var foodOptionsSelected by rememberSaveable { mutableStateOf(listOf("")) }
+        val foodOptions = buildFoodOptions(foodOptionsSelected) { optionName, isChecked ->
+            foodOptionsSelected = if (isChecked) {
+                val mutable = foodOptionsSelected.toMutableList()
+                mutable.add(optionName)
+                mutable
+            } else {
+                val mutable = foodOptionsSelected.toMutableList()
+                mutable.removeAll { it == optionName }
+                mutable
+            }
+        }
 
         var animalSpecieSelected by rememberSaveable { mutableStateOf("") }
         val animalSpecieOptions = buildAnimalSpecieOptions(animalSpecieSelected) { newSelection ->
@@ -75,6 +88,7 @@ fun PetForm() {
         val onDiscardClickListener: () -> Unit = {
             Log.d("Pets", "Limpiando formulario")
             name = ""
+            foodOptionsSelected = emptyList()
             animalSpecieSelected = ""
         }
         val onSubmitClickListener: () -> Unit = {

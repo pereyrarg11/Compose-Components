@@ -1,4 +1,4 @@
-package com.pereyrarg11.composecomponents.ui.views.checkbox
+package com.pereyrarg11.composecomponents.ui.views.food
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
@@ -7,10 +7,6 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.material.TriStateCheckbox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
@@ -18,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.pereyrarg11.composecomponents.ui.views.FormGroupLabel
 
 @Composable
-fun FoodFormGroup(options: List<CheckboxInfo>) {
+fun FoodFormGroup(options: List<FoodOption>) {
     val allOptionsState = if (options.all { it.isChecked }) {
         ToggleableState.On
     } else if (options.all { !it.isChecked }) {
@@ -28,7 +24,7 @@ fun FoodFormGroup(options: List<CheckboxInfo>) {
     }
     val onAllOptionsClick = {
         val isOn = allOptionsState != ToggleableState.On
-        options.forEach { it.onCheckedChanged(isOn) }
+        options.forEach { it.onCheckedChange(isOn) }
     }
 
     Column(Modifier.fillMaxWidth()) {
@@ -46,13 +42,13 @@ fun FoodFormGroup(options: List<CheckboxInfo>) {
 }
 
 @Composable
-fun CheckboxOption(config: CheckboxInfo) {
+fun CheckboxOption(config: FoodOption) {
     Row(
         Modifier
             .toggleable(
                 value = config.isChecked,
                 role = Role.Checkbox,
-                onValueChange = config.onCheckedChanged
+                onValueChange = config.onCheckedChange
             )
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .fillMaxWidth()
@@ -75,9 +71,7 @@ fun TriStateCheckboxOption(state: ToggleableState, onClickListener: () -> Unit) 
     Row(
         Modifier
             .triStateToggleable(
-                state = state,
-                role = Role.Checkbox,
-                onClick = onClickListener
+                state = state, role = Role.Checkbox, onClick = onClickListener
             )
             .padding(vertical = 8.dp)
             .fillMaxWidth()
@@ -92,14 +86,20 @@ fun TriStateCheckboxOption(state: ToggleableState, onClickListener: () -> Unit) 
     }
 }
 
-@Composable
-fun createFoodOptions(labels: List<String>): List<CheckboxInfo> {
-    return labels.map {
-        var isChecked by rememberSaveable { mutableStateOf(false) }
-        CheckboxInfo(
-            label = it,
-            isChecked = isChecked,
-            onCheckedChanged = { newStatus -> isChecked = newStatus }
+fun buildFoodOptions(
+    checkedOptions: List<String>,
+    onOptionChecked: (String, Boolean) -> Unit
+): List<FoodOption> {
+    return FoodCatalog.values().map { foodItem ->
+        FoodOption(
+            label = foodItem.description,
+            isChecked = checkedOptions.contains(foodItem.description),
+            onCheckedChange = { newCheckedState ->
+                onOptionChecked(
+                    foodItem.description,
+                    newCheckedState
+                )
+            }
         )
     }
 }
