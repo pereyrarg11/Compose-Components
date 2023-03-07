@@ -32,6 +32,7 @@ import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
 import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
+import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
 
@@ -83,13 +84,17 @@ fun PetForm() {
             animalSpecieSelected = newSelection
         }
 
+        var paymentMethod by rememberSaveable { mutableStateOf("") }
+
         val submitEnabled = name.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
                 && animalSpecieSelected.isNotEmpty()
+                && paymentMethod.isNotEmpty()
 
         val discardEnabled = name.isNotEmpty()
                 || foodOptionsSelected.isNotEmpty()
                 || animalSpecieSelected.isNotEmpty()
+                || paymentMethod.isNotEmpty()
 
         val onNameChanged: (String) -> Unit = { name = it }
         val onDiscardClickListener: () -> Unit = {
@@ -97,6 +102,7 @@ fun PetForm() {
             name = ""
             foodOptionsSelected = emptyList()
             animalSpecieSelected = ""
+            paymentMethod = ""
         }
         val onSubmitClickListener: () -> Unit = {
             Log.i("Pets", "Guardando información")
@@ -112,6 +118,9 @@ fun PetForm() {
             InfoFormGroup(name = name, onNameChanged = onNameChanged)
             FoodFormGroup(options = foodOptions)
             AnimalSpecieFormGroup(options = animalSpecieOptions)
+            PaymentMethodFormGroup(selectedMethod = paymentMethod) {
+                paymentMethod = it
+            }
             Actions(
                 actionsEnabled = submitEnabled,
                 discardEnabled = discardEnabled,
