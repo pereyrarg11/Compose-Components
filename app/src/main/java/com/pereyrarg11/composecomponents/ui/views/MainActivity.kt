@@ -34,6 +34,7 @@ import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.slices.SlicesFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
 
@@ -87,6 +88,9 @@ fun PetForm() {
 
         var paymentMethod by rememberSaveable { mutableStateOf("") }
 
+        var sliceCount by rememberSaveable { mutableStateOf(4) }
+        var sliceSliderValue by rememberSaveable { mutableStateOf(4f) }
+
         val submitEnabled = name.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
                 && animalSpecieSelected.isNotEmpty()
@@ -104,6 +108,8 @@ fun PetForm() {
             foodOptionsSelected = emptyList()
             animalSpecieSelected = ""
             paymentMethod = ""
+            sliceCount = 4
+            sliceSliderValue = 4f
         }
         val onSubmitClickListener: () -> Unit = {
             Log.i("Pets", "Guardando información")
@@ -122,6 +128,11 @@ fun PetForm() {
             PaymentMethodFormGroup(selectedMethod = paymentMethod) {
                 paymentMethod = it
             }
+            SlicesFormGroup(
+                sliceCount = sliceCount,
+                sliderValue = sliceSliderValue,
+                onSliderChange = { sliceSliderValue = it }
+            ) { sliceCount = sliceSliderValue.toInt() }
             Actions(
                 actionsEnabled = submitEnabled,
                 discardEnabled = discardEnabled,
