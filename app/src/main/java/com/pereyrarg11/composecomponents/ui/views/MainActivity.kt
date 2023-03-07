@@ -38,6 +38,9 @@ import com.pereyrarg11.composecomponents.ui.views.slices.SlicesFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
 
+/**
+ * Components documentation: https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
