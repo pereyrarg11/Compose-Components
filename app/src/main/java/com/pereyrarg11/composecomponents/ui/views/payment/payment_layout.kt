@@ -2,9 +2,7 @@ package com.pereyrarg11.composecomponents.ui.views.payment
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.OutlinedTextField
@@ -15,19 +13,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.pereyrarg11.composecomponents.ui.views.FormGroupLabel
+import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 
 
 @Composable
 fun PaymentMethodFormGroup(selectedMethod: String, onPaymentMethodSelected: (String) -> Unit) {
-    Column {
-        FormGroupLabel(text = "Método de pago")
-        Spacer(
-            Modifier
-                .height(8.dp)
-                .fillMaxWidth()
-        )
+    FormGroupLayout(label = "Método de Pago") {
         PaymentMethodDropdown(
             selectedText = selectedMethod,
             onItemSelected = onPaymentMethodSelected

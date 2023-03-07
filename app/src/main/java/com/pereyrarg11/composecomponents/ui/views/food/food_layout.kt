@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
-import com.pereyrarg11.composecomponents.ui.views.FormGroupLabel
+import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 
 @Composable
 fun FoodFormGroup(options: List<FoodOption>) {
@@ -27,13 +27,7 @@ fun FoodFormGroup(options: List<FoodOption>) {
         options.forEach { it.onCheckedChange(isOn) }
     }
 
-    Column(Modifier.fillMaxWidth()) {
-        FormGroupLabel(text = "Alimentación")
-        Spacer(
-            Modifier
-                .height(8.dp)
-                .fillMaxWidth()
-        )
+    FormGroupLayout(label = "Alimentación") {
         TriStateCheckboxOption(state = allOptionsState, onClickListener = onAllOptionsClick)
         options.forEach {
             CheckboxOption(config = it)

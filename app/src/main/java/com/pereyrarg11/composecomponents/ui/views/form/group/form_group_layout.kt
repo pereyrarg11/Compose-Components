@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun FormGroupLayout(label: String, content: @Composable () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
         elevation = 8.dp,
         shape = MaterialTheme.shapes.small,
-        border = BorderStroke(1.dp, Color.Yellow)
+        border = BorderStroke(1.dp, Color.Cyan)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = label, fontWeight = FontWeight.Bold)
@@ -28,7 +28,7 @@ fun FormGroupLayout(label: String, content: @Composable () -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, bottom = 16.dp),
-                color = Color.Yellow
+                color = Color.Cyan
             )
             content()
         }

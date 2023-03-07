@@ -32,6 +32,7 @@ import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
 import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
+import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
 import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
@@ -167,16 +168,7 @@ fun TextInputForm(value: String, label: String, onValueChanged: (String) -> Unit
 
 @Composable
 fun InfoFormGroup(name: String, onNameChanged: (String) -> Unit) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-    ) {
-        FormGroupLabel(text = "Información básica")
-        Spacer(
-            Modifier
-                .height(8.dp)
-                .fillMaxWidth()
-        )
+    FormGroupLayout(label = "Información básica") {
         TextInputForm(value = name, label = "Nombre", onValueChanged = onNameChanged)
     }
 }

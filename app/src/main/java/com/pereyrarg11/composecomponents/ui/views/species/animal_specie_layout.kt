@@ -8,17 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.pereyrarg11.composecomponents.ui.views.FormGroupLabel
+import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 
 @Composable
 fun AnimalSpecieFormGroup(options: List<AnimalSpecieOption>) {
-    Column(Modifier.fillMaxWidth()) {
-        FormGroupLabel(text = "Especie")
-        Spacer(
-            Modifier
-                .height(8.dp)
-                .fillMaxWidth()
-        )
+    FormGroupLayout(label = "Especie") {
         options.forEach { option ->
             AnimalSpecieRadioButton(optionConfig = option)
         }
