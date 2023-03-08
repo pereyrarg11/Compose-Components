@@ -1,16 +1,10 @@
 package com.pereyrarg11.composecomponents.ui.views.food
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.selection.triStateToggleable
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Text
-import androidx.compose.material.TriStateCheckbox
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
-import androidx.compose.ui.unit.dp
+import com.pereyrarg11.composecomponents.ui.views.components.checkbox.CheckboxOption
+import com.pereyrarg11.composecomponents.ui.views.components.checkbox.CheckboxComponent
+import com.pereyrarg11.composecomponents.ui.views.components.checkbox.TriStateCheckboxComponent
 import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 
 @Composable
@@ -28,55 +22,10 @@ fun FoodFormGroup(options: List<CheckboxOption>) {
     }
 
     FormGroupLayout(label = "Carnes") {
-        TriStateCheckboxOption(state = allOptionsState, onClickListener = onAllOptionsClick)
+        TriStateCheckboxComponent(state = allOptionsState, onClickListener = onAllOptionsClick)
         options.forEach {
-            CheckboxOption(config = it)
+            CheckboxComponent(config = it)
         }
-    }
-}
-
-@Composable
-fun CheckboxOption(config: CheckboxOption) {
-    Row(
-        Modifier
-            .toggleable(
-                value = config.isChecked,
-                role = Role.Checkbox,
-                onValueChange = config.onCheckedChange
-            )
-            .padding(vertical = 8.dp, horizontal = 16.dp)
-            .fillMaxWidth()
-    ) {
-        Checkbox(
-            checked = config.isChecked,
-            onCheckedChange = null,
-        )
-        Spacer(
-            Modifier
-                .padding(8.dp)
-                .fillMaxHeight()
-        )
-        Text(text = config.label)
-    }
-}
-
-@Composable
-fun TriStateCheckboxOption(state: ToggleableState, onClickListener: () -> Unit) {
-    Row(
-        Modifier
-            .triStateToggleable(
-                state = state, role = Role.Checkbox, onClick = onClickListener
-            )
-            .padding(vertical = 8.dp)
-            .fillMaxWidth()
-    ) {
-        TriStateCheckbox(state = state, onClick = null)
-        Spacer(
-            Modifier
-                .padding(8.dp)
-                .fillMaxHeight()
-        )
-        Text(text = "Todas las opciones")
     }
 }
 
