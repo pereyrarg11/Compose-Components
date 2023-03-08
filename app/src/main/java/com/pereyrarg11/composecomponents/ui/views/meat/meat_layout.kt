@@ -1,4 +1,4 @@
-package com.pereyrarg11.composecomponents.ui.views.food
+package com.pereyrarg11.composecomponents.ui.views.meat
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.state.ToggleableState

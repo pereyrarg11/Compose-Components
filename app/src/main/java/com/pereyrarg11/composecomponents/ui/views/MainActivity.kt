@@ -33,8 +33,8 @@ import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
 import com.pereyrarg11.composecomponents.ui.views.customer.CustomerFormGroup
 import com.pereyrarg11.composecomponents.ui.views.dialogs.DiscardDialog
-import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
-import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
+import com.pereyrarg11.composecomponents.ui.views.meat.FoodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.meat.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.shore.ShoreFormGroup
 import com.pereyrarg11.composecomponents.ui.views.shore.buildShoreOptions

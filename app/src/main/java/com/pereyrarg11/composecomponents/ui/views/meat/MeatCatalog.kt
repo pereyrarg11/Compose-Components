@@ -1,4 +1,4 @@
-package com.pereyrarg11.composecomponents.ui.views.food
+package com.pereyrarg11.composecomponents.ui.views.meat
 
 enum class MeatCatalog(val description: String) {
     HAM("Jamón"),
