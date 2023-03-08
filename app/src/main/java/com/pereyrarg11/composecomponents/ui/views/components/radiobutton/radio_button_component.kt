@@ -1,4 +1,4 @@
-package com.pereyrarg11.composecomponents.ui.views.components
+package com.pereyrarg11.composecomponents.ui.views.components.radiobutton
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.pereyrarg11.composecomponents.ui.views.species.RadioButtonOption
 
 @Composable
 fun ShoreRadioButton(optionConfig: RadioButtonOption) {

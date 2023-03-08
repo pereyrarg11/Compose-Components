@@ -1,7 +1,8 @@
-package com.pereyrarg11.composecomponents.ui.views.species
+package com.pereyrarg11.composecomponents.ui.views.shore
 
 import androidx.compose.runtime.Composable
-import com.pereyrarg11.composecomponents.ui.views.components.ShoreRadioButton
+import com.pereyrarg11.composecomponents.ui.views.components.radiobutton.ShoreRadioButton
+import com.pereyrarg11.composecomponents.ui.views.components.radiobutton.RadioButtonOption
 import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 
 @Composable

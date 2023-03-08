@@ -36,9 +36,9 @@ import com.pereyrarg11.composecomponents.ui.views.dialogs.DiscardDialog
 import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.shore.ShoreFormGroup
+import com.pereyrarg11.composecomponents.ui.views.shore.buildShoreOptions
 import com.pereyrarg11.composecomponents.ui.views.slices.SlicesFormGroup
-import com.pereyrarg11.composecomponents.ui.views.species.ShoreFormGroup
-import com.pereyrarg11.composecomponents.ui.views.species.buildShoreOptions
 
 /**
  * Components documentation: https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary
