@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -30,14 +31,14 @@ import androidx.compose.ui.unit.sp
 import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
+import com.pereyrarg11.composecomponents.ui.views.customer.CustomerFormGroup
 import com.pereyrarg11.composecomponents.ui.views.dialogs.DiscardDialog
-import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
-import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
-import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
+import com.pereyrarg11.composecomponents.ui.views.meat.FoodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.meat.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
+import com.pereyrarg11.composecomponents.ui.views.shore.ShoreFormGroup
+import com.pereyrarg11.composecomponents.ui.views.shore.buildShoreOptions
 import com.pereyrarg11.composecomponents.ui.views.slices.SlicesFormGroup
-import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
-import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
 
 /**
  * Components documentation: https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary
@@ -67,7 +68,7 @@ fun PetForm() {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var name by rememberSaveable { mutableStateOf("") }
+        var customerName by rememberSaveable { mutableStateOf("") }
 
         /* food */
         var foodOptionsSelected: List<String> by rememberSaveable {
@@ -85,9 +86,9 @@ fun PetForm() {
             }
         }
 
-        var animalSpecieSelected by rememberSaveable { mutableStateOf("") }
-        val animalSpecieOptions = buildAnimalSpecieOptions(animalSpecieSelected) { newSelection ->
-            animalSpecieSelected = newSelection
+        var shoreSelected by rememberSaveable { mutableStateOf("") }
+        val shoreOptions = buildShoreOptions(shoreSelected) { newSelection ->
+            shoreSelected = newSelection
         }
 
         var paymentMethod by rememberSaveable { mutableStateOf("") }
@@ -97,17 +98,15 @@ fun PetForm() {
 
         var showDiscardDialog by rememberSaveable { mutableStateOf(false) }
 
-        val submitEnabled = name.isNotEmpty()
+        val submitEnabled = customerName.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
-                && animalSpecieSelected.isNotEmpty()
+                && shoreSelected.isNotEmpty()
                 && paymentMethod.isNotEmpty()
 
-        val discardEnabled = name.isNotEmpty()
+        val discardEnabled = customerName.isNotEmpty()
                 || foodOptionsSelected.isNotEmpty()
-                || animalSpecieSelected.isNotEmpty()
+                || shoreSelected.isNotEmpty()
                 || paymentMethod.isNotEmpty()
-
-        val onNameChanged: (String) -> Unit = { name = it }
 
         FormHeader()
         Spacer(
@@ -116,9 +115,9 @@ fun PetForm() {
                 .fillMaxWidth()
         )
         Column(Modifier.width(300.dp)) {
-            InfoFormGroup(name = name, onNameChanged = onNameChanged)
+            CustomerFormGroup(name = customerName) { customerName = it }
             FoodFormGroup(options = foodOptions)
-            AnimalSpecieFormGroup(options = animalSpecieOptions)
+            ShoreFormGroup(options = shoreOptions)
             PaymentMethodFormGroup(selectedMethod = paymentMethod) {
                 paymentMethod = it
             }
@@ -137,9 +136,9 @@ fun PetForm() {
                 isDisplayed = showDiscardDialog,
                 onDismissListener = { showDiscardDialog = false }
             ) {
-                name = ""
+                customerName = ""
                 foodOptionsSelected = emptyList()
-                animalSpecieSelected = ""
+                shoreSelected = ""
                 paymentMethod = ""
                 sliceCount = 4
                 sliceSliderValue = 4f
@@ -153,7 +152,7 @@ fun PetForm() {
 fun FormHeader() {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         Text(
-            text = "Mis mascotas",
+            text = stringResource(id = R.string.app_name),
             fontFamily = FontFamily.Cursive,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 30.sp
@@ -164,30 +163,6 @@ fun FormHeader() {
 @Composable
 fun FormGroupLabel(text: String) {
     Text(text = text, textDecoration = TextDecoration.Underline, fontWeight = FontWeight.Bold)
-}
-
-@Composable
-fun TextInputForm(value: String, label: String, onValueChanged: (String) -> Unit) {
-    Column(Modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChanged,
-            label = { Text(text = label) },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(
-            modifier = Modifier
-                .height(8.dp)
-                .fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-fun InfoFormGroup(name: String, onNameChanged: (String) -> Unit) {
-    FormGroupLayout(label = "Información básica") {
-        TextInputForm(value = name, label = "Nombre", onValueChanged = onNameChanged)
-    }
 }
 
 @Composable
