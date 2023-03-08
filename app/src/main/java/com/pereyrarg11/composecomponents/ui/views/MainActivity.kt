@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -151,7 +152,7 @@ fun PetForm() {
 fun FormHeader() {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         Text(
-            text = "Mis mascotas",
+            text = stringResource(id = R.string.app_name),
             fontFamily = FontFamily.Cursive,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 30.sp
