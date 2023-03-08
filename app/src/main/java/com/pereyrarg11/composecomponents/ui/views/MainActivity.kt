@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.pereyrarg11.composecomponents.R
 import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
+import com.pereyrarg11.composecomponents.ui.views.dialogs.DiscardDialog
 import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
@@ -94,6 +95,8 @@ fun PetForm() {
         var sliceCount by rememberSaveable { mutableStateOf(4) }
         var sliceSliderValue by rememberSaveable { mutableStateOf(4f) }
 
+        var showDiscardDialog by rememberSaveable { mutableStateOf(false) }
+
         val submitEnabled = name.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
                 && animalSpecieSelected.isNotEmpty()
@@ -105,18 +108,6 @@ fun PetForm() {
                 || paymentMethod.isNotEmpty()
 
         val onNameChanged: (String) -> Unit = { name = it }
-        val onDiscardClickListener: () -> Unit = {
-            Log.d("Pets", "Limpiando formulario")
-            name = ""
-            foodOptionsSelected = emptyList()
-            animalSpecieSelected = ""
-            paymentMethod = ""
-            sliceCount = 4
-            sliceSliderValue = 4f
-        }
-        val onSubmitClickListener: () -> Unit = {
-            Log.i("Pets", "Guardando información")
-        }
 
         FormHeader()
         Spacer(
@@ -139,9 +130,21 @@ fun PetForm() {
             Actions(
                 actionsEnabled = submitEnabled,
                 discardEnabled = discardEnabled,
-                onSubmitListener = onSubmitClickListener,
-                onDiscardListener = onDiscardClickListener,
+                onSubmitListener = { Log.i("Pets", "Guardando información") },
+                onDiscardListener = { showDiscardDialog = true },
             )
+            DiscardDialog(
+                isDisplayed = showDiscardDialog,
+                onDismissListener = { showDiscardDialog = false }
+            ) {
+                name = ""
+                foodOptionsSelected = emptyList()
+                animalSpecieSelected = ""
+                paymentMethod = ""
+                sliceCount = 4
+                sliceSliderValue = 4f
+                showDiscardDialog = false
+            }
         }
     }
 }
