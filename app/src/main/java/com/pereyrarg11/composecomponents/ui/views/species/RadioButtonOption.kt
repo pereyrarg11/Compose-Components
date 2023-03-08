@@ -1,7 +1,7 @@
 package com.pereyrarg11.composecomponents.ui.views.species
 
-data class AnimalSpecieOption(
+data class RadioButtonOption(
     val label: String = "",
-    var isSelected: Boolean = false,
+    val isSelected: Boolean = false,
     val onClickListener: () -> Unit,
 )

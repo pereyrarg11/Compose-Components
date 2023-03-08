@@ -36,8 +36,8 @@ import com.pereyrarg11.composecomponents.ui.views.food.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.food.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.slices.SlicesFormGroup
-import com.pereyrarg11.composecomponents.ui.views.species.AnimalSpecieFormGroup
-import com.pereyrarg11.composecomponents.ui.views.species.buildAnimalSpecieOptions
+import com.pereyrarg11.composecomponents.ui.views.species.ShoreFormGroup
+import com.pereyrarg11.composecomponents.ui.views.species.buildShoreOptions
 
 /**
  * Components documentation: https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary
@@ -85,9 +85,9 @@ fun PetForm() {
             }
         }
 
-        var animalSpecieSelected by rememberSaveable { mutableStateOf("") }
-        val animalSpecieOptions = buildAnimalSpecieOptions(animalSpecieSelected) { newSelection ->
-            animalSpecieSelected = newSelection
+        var shoreSelected by rememberSaveable { mutableStateOf("") }
+        val shoreOptions = buildShoreOptions(shoreSelected) { newSelection ->
+            shoreSelected = newSelection
         }
 
         var paymentMethod by rememberSaveable { mutableStateOf("") }
@@ -99,12 +99,12 @@ fun PetForm() {
 
         val submitEnabled = customerName.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
-                && animalSpecieSelected.isNotEmpty()
+                && shoreSelected.isNotEmpty()
                 && paymentMethod.isNotEmpty()
 
         val discardEnabled = customerName.isNotEmpty()
                 || foodOptionsSelected.isNotEmpty()
-                || animalSpecieSelected.isNotEmpty()
+                || shoreSelected.isNotEmpty()
                 || paymentMethod.isNotEmpty()
 
         FormHeader()
@@ -116,7 +116,7 @@ fun PetForm() {
         Column(Modifier.width(300.dp)) {
             CustomerFormGroup(name = customerName) { customerName = it }
             FoodFormGroup(options = foodOptions)
-            AnimalSpecieFormGroup(options = animalSpecieOptions)
+            ShoreFormGroup(options = shoreOptions)
             PaymentMethodFormGroup(selectedMethod = paymentMethod) {
                 paymentMethod = it
             }
@@ -137,7 +137,7 @@ fun PetForm() {
             ) {
                 customerName = ""
                 foodOptionsSelected = emptyList()
-                animalSpecieSelected = ""
+                shoreSelected = ""
                 paymentMethod = ""
                 sliceCount = 4
                 sliceSliderValue = 4f
