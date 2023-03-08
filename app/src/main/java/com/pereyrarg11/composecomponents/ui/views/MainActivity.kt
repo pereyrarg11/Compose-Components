@@ -33,11 +33,13 @@ import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
 import com.pereyrarg11.composecomponents.ui.views.customer.CustomerFormGroup
 import com.pereyrarg11.composecomponents.ui.views.dialogs.DiscardDialog
+import com.pereyrarg11.composecomponents.ui.views.dialogs.SizeDialog
 import com.pereyrarg11.composecomponents.ui.views.meat.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.meat.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.shore.ShoreFormGroup
 import com.pereyrarg11.composecomponents.ui.views.shore.buildShoreOptions
+import com.pereyrarg11.composecomponents.ui.views.size.SizeFormGroup
 import com.pereyrarg11.composecomponents.ui.views.slices.SlicesFormGroup
 
 /**
@@ -96,17 +98,23 @@ fun PetForm() {
         var sliceCount by rememberSaveable { mutableStateOf(4) }
         var sliceSliderValue by rememberSaveable { mutableStateOf(4f) }
 
+        var sizeSelected by rememberSaveable { mutableStateOf("") }
+        var sizeDraft by rememberSaveable { mutableStateOf("") }
+
         var showDiscardDialog by rememberSaveable { mutableStateOf(false) }
+        var showSizeDialog by rememberSaveable { mutableStateOf(false) }
 
         val submitEnabled = customerName.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
                 && shoreSelected.isNotEmpty()
                 && paymentMethod.isNotEmpty()
+                && sizeSelected.isNotEmpty()
 
         val discardEnabled = customerName.isNotEmpty()
                 || foodOptionsSelected.isNotEmpty()
                 || shoreSelected.isNotEmpty()
                 || paymentMethod.isNotEmpty()
+                || sizeSelected.isNotEmpty()
 
         FormHeader()
         Spacer(
@@ -117,6 +125,9 @@ fun PetForm() {
         Column(Modifier.width(300.dp)) {
             CustomerFormGroup(name = customerName) { customerName = it }
             FoodFormGroup(options = foodOptions)
+            SizeFormGroup(sizeSelected = sizeSelected) {
+                showSizeDialog = true
+            }
             ShoreFormGroup(options = shoreOptions)
             PaymentMethodFormGroup(selectedMethod = paymentMethod) {
                 paymentMethod = it
@@ -143,6 +154,20 @@ fun PetForm() {
                 sliceCount = 4
                 sliceSliderValue = 4f
                 showDiscardDialog = false
+                sizeDraft = ""
+                sizeSelected = ""
+            }
+            SizeDialog(
+                isDisplayed = showSizeDialog,
+                draftSelected = sizeDraft,
+                onDraftSelect = { sizeDraft = it },
+                onDismissListener = {
+                    showSizeDialog = false
+                    sizeDraft = sizeSelected
+                }
+            ) {
+                sizeSelected = sizeDraft
+                showSizeDialog = false
             }
         }
     }
