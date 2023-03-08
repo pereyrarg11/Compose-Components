@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.pereyrarg11.composecomponents.ui.views.form.group.FormGroupLayout
 
 @Composable
-fun FoodFormGroup(options: List<FoodOption>) {
+fun FoodFormGroup(options: List<CheckboxOption>) {
     val allOptionsState = if (options.all { it.isChecked }) {
         ToggleableState.On
     } else if (options.all { !it.isChecked }) {
@@ -27,7 +27,7 @@ fun FoodFormGroup(options: List<FoodOption>) {
         options.forEach { it.onCheckedChange(isOn) }
     }
 
-    FormGroupLayout(label = "Alimentación") {
+    FormGroupLayout(label = "Carnes") {
         TriStateCheckboxOption(state = allOptionsState, onClickListener = onAllOptionsClick)
         options.forEach {
             CheckboxOption(config = it)
@@ -36,7 +36,7 @@ fun FoodFormGroup(options: List<FoodOption>) {
 }
 
 @Composable
-fun CheckboxOption(config: FoodOption) {
+fun CheckboxOption(config: CheckboxOption) {
     Row(
         Modifier
             .toggleable(
@@ -83,9 +83,9 @@ fun TriStateCheckboxOption(state: ToggleableState, onClickListener: () -> Unit) 
 fun buildFoodOptions(
     checkedOptions: List<String>,
     onOptionChecked: (String, Boolean) -> Unit
-): List<FoodOption> {
-    return FoodCatalog.values().map { foodItem ->
-        FoodOption(
+): List<CheckboxOption> {
+    return MeatCatalog.values().map { foodItem ->
+        CheckboxOption(
             label = foodItem.description,
             isChecked = checkedOptions.contains(foodItem.description),
             onCheckedChange = { newCheckedState ->
