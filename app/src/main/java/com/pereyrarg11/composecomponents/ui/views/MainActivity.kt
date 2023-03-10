@@ -33,7 +33,9 @@ import com.pereyrarg11.composecomponents.ui.theme.ComposeComponentsTheme
 import com.pereyrarg11.composecomponents.ui.views.actions.Actions
 import com.pereyrarg11.composecomponents.ui.views.customer.CustomerFormGroup
 import com.pereyrarg11.composecomponents.ui.views.dialogs.DiscardDialog
+import com.pereyrarg11.composecomponents.ui.views.dialogs.PizzaOrder
 import com.pereyrarg11.composecomponents.ui.views.dialogs.SizeDialog
+import com.pereyrarg11.composecomponents.ui.views.dialogs.SubmitDialog
 import com.pereyrarg11.composecomponents.ui.views.meat.FoodFormGroup
 import com.pereyrarg11.composecomponents.ui.views.meat.buildFoodOptions
 import com.pereyrarg11.composecomponents.ui.views.payment.PaymentMethodFormGroup
@@ -103,6 +105,7 @@ fun PetForm() {
 
         var showDiscardDialog by rememberSaveable { mutableStateOf(false) }
         var showSizeDialog by rememberSaveable { mutableStateOf(false) }
+        var showSubmitDialog by rememberSaveable { mutableStateOf(false) }
 
         val submitEnabled = customerName.isNotEmpty()
                 && foodOptionsSelected.isNotEmpty()
@@ -115,6 +118,20 @@ fun PetForm() {
                 || shoreSelected.isNotEmpty()
                 || paymentMethod.isNotEmpty()
                 || sizeSelected.isNotEmpty()
+
+        val clearForm: () -> Unit = {
+            customerName = ""
+            foodOptionsSelected = emptyList()
+            shoreSelected = ""
+            paymentMethod = ""
+            sliceCount = 4
+            sliceSliderValue = 4f
+            sizeDraft = ""
+            sizeSelected = ""
+            showDiscardDialog = false
+            showSubmitDialog = false
+            showSizeDialog = false
+        }
 
         FormHeader()
         Spacer(
@@ -140,23 +157,14 @@ fun PetForm() {
             Actions(
                 actionsEnabled = submitEnabled,
                 discardEnabled = discardEnabled,
-                onSubmitListener = { Log.i("Pets", "Guardando información") },
+                onSubmitListener = { showSubmitDialog = true },
                 onDiscardListener = { showDiscardDialog = true },
             )
             DiscardDialog(
                 isDisplayed = showDiscardDialog,
-                onDismissListener = { showDiscardDialog = false }
-            ) {
-                customerName = ""
-                foodOptionsSelected = emptyList()
-                shoreSelected = ""
-                paymentMethod = ""
-                sliceCount = 4
-                sliceSliderValue = 4f
-                showDiscardDialog = false
-                sizeDraft = ""
-                sizeSelected = ""
-            }
+                onDismissListener = { showDiscardDialog = false },
+                onConfirmListener = clearForm
+            )
             SizeDialog(
                 isDisplayed = showSizeDialog,
                 draftSelected = sizeDraft,
@@ -168,6 +176,18 @@ fun PetForm() {
             ) {
                 sizeSelected = sizeDraft
                 showSizeDialog = false
+            }
+            SubmitDialog(isVisible = showSubmitDialog, data = PizzaOrder(
+                customerName = customerName,
+                meatList = foodOptionsSelected,
+                size = sizeSelected,
+                shore = shoreSelected,
+                paymentMethod = paymentMethod,
+                sliceCount = sliceCount
+            ), onDismissListener = { showSubmitDialog = false }) {
+                showSubmitDialog = false
+                Log.i("SUBMIT", "Guardando orden")
+                clearForm()
             }
         }
     }
